@@ -1,0 +1,71 @@
+
+---
+title: "Network analysis using R"
+output: pdf_document
+---
+
+
+## Contributors
+* [Dr. Priyabrata Panigrahi](https://in.linkedin.com/in/priyabrata-panigrahi-31621918)
+
+## Syllabus
+Introduction
+
+    Primer to R and Rstudio
+    Installation of required packages
+
+
+Creating graph object
+
+    Data frame to Graph object
+    iGraph objects
+
+
+Network analysis
+
+    Nodes and Edges
+    Degree and Degree distribution
+    Edge density
+    Diameter
+    Degree centrality
+    Closeness
+    Betweeness
+    Hubs
+    Authorities
+    Distances and Paths
+    Shortest paths
+    Subgroups and communities
+    Cliques
+    Community detection
+    Greedy optimization of modularity
+    Clustering
+    Searches
+    Reciprocity
+    Transitivity
+    K-core decomposition
+    Assortativity and Homophily
+
+
+Network layouts
+
+    Circle|grid|sphere|random|star etc
+    Arc diagram
+
+
+Network visualization
+
+    Static plots
+    Detailed exploration of plotting parameters
+    Interactive plots using visNetwork and networkD3
+    Create sankey diagram
+
+
+R packages
+
+    iGraph
+    visNetwork
+    networkD3
+    tidygraph
+
+
+Case study

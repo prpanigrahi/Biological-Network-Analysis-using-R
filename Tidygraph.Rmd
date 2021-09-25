@@ -1,0 +1,343 @@
+---
+title: "Tidygraph"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load library
+```{r, message=FALSE}
+library(dplyr)
+library(tidygraph)
+library(ggraph)
+library(igraph)
+```
+
+## Load data 
+```{r}
+df = read.table("data/data.tsv", header = T)
+head(df)
+```
+
+## .
+
+```{r, eval=FALSE}
+nodes = read.csv("data/dolphin_nodes.csv", header = T)
+edges = read.csv("data/dolphin_edges.csv", header = T)
+n = nrow(nodes)
+m = nrow(edges)
+
+# mutate edges and nodes
+edge_type = sample(c("love", "friendship"), m, replace = TRUE)
+edge_weight = runif(m, 1, 10)
+edges = mutate(edges, type = edge_type, weight = edge_weight)
+head(edges)
+nodes = mutate(nodes, id = 1:n) %>% select(id, everything())
+
+# degree of nodes (number of ties for each dolphin)
+tb = tibble(v = c(1:n, edges$x, edges$y))
+d = count(tb, v)$n - 1
+nodes = mutate(nodes, degree = d)
+
+# create graph from data frames
+g = graph_from_data_frame(edges, directed = FALSE, nodes)
+plot(g)
+```
+
+## The tbl_graph object
+From the definition [1]
+
+Underneath the hood of tidygraph lies the well-oiled machinery of igraph, ensuring efficient graph manipulation. Rather than keeping the node and edge data in a list and creating igraph objects on the fly when needed, tidygraph subclasses igraph with the tbl_graph class and simply exposes it in a tidy manner. This ensures that all your beloved algorithms that expects igraph objects still works with tbl_graph objects. Further, tidygraph is very careful not to override any of igraphs exports so the two packages can coexist quite happily.
+
+Basically a tbl_graph object consists of two tibbles/data frames
+
+* Node Data
+* Edge data
+
+## Create tbl_graph object
+There are 2 key functions that can be used to create tbl_graph object.
+
+* **tbl_graph()**. Creates a network object from nodes and edges data
+* **as_tbl_graph()**. Converts network data and objects to a tbl_graph network. The following list gives the packages/classes that can currently be converted to tbl_graphs, using the as_tbl_graph function:
+
+  * data.frame, list, matrix from base
+  * igraph from igraph
+  * network from network
+  * dendrogram and hclust from stats
+  * Node from data.tree
+  * phylo and evonet from ape
+  * graphNEL, graphAM, graphBAM from graph (in Bioconductor)
+
+## Convert igraph object to tbl_graph
+```{r}
+g = graph_from_data_frame(df) %>% as_tbl_graph()
+print(g)
+```
+You can see that of the two tibbles associated with tbl_graph, node tibble is at present active. It means any manipulation will be applied to nodes. To make edge tibble as active, we have to activate the edge tibble. We will explain this in next few sections.
+
+There are 11 nodes and 32 edges
+
+## Add vertex and node properties
+```{r}
+# vertex attributes
+g = set_vertex_attr(graph = g, name = "type", value = c(rep("type1", 6), rep("type2", 3), rep("type3", 2)))
+
+# Edge attributes
+g = set_edge_attr(graph = g, name = "type", value = c(rep("strong", 10), rep("weak", 22)))
+
+print(g)
+```
+
+## Use ggraph to plot
+
+* geom_node_point(): Show nodes as points
+* geom_edge_link(): Draw edges as straight lines between nodes
+
+```{r}
+ggraph(graph = g, layout = "fr") +
+  geom_node_point() +
+  geom_edge_link()
+```
+
+## Add node names
+
+```{r}
+ggraph(graph = g, layout = "fr") +
+  geom_node_point() +
+  geom_edge_link() +
+  geom_node_text(aes(label = name), repel = T)
+```
+
+## Color edges w.r.t type
+
+```{r}
+ggraph(graph = g, layout = "fr") +
+  geom_node_point() +
+  geom_edge_link(aes(color = type)) +
+  geom_node_text(aes(label = name), repel = T)
+```
+
+## Color nodes and text w.r.t type
+
+Use color aes mapping in geom_node_point and geom_node_text
+
+```{r}
+ggraph(graph = g, layout = "fr") +
+  geom_node_point(aes(color = type)) +
+  geom_edge_link(aes(color = type)) +
+  geom_node_text(aes(label = name, color = type), repel = T)
+```
+
+## .
+```{r}
+nodes = read.csv("data/nodes.csv", header =T)
+head(nodes)
+dim(nodes)
+
+edges = read.csv("data/ties.csv", header =T)
+head(edges)
+dim(edges)
+
+g = graph_from_data_frame(d = edges, directed = FALSE, vertices = nodes) %>% as_tbl_graph()
+g$name = "Madrid network"
+
+# Add id attributes. Set a node attribute id as the sequence from 1 to the number of nodes of the network 
+V(g)$id <- 1:V(g)
+
+# Add node attributes
+V(g)$nodetype = sample(c("type1", "type2"), size = vcount(g), replace = T)
+
+print(g)
+```
+
+## visualize the network 
+```{r}
+ggraph(g, layout = "with_kk") + 
+    geom_edge_link() + 
+    geom_node_point()
+```
+
+## Layout
+
+Explore igraph layout functions. Type ?layout_ for more help. Ignore the layout_ in the function name and use this as value e.g. use in_circle instead of layout_in_circle
+
+### in_circle
+```{r}
+ggraph(g, layout = "in_circle") + 
+    geom_edge_link() + 
+    geom_node_point()
+```
+
+### on_grid
+```{r}
+ggraph(g, layout = "on_grid") + 
+    geom_edge_link() + 
+    geom_node_point()
+```
+
+### on sphere
+```{r}
+ggraph(g, layout = "on_sphere") + 
+    geom_edge_link() + 
+    geom_node_point()
+```
+
+### with_kk
+```{r}
+ggraph(g, layout = "with_kk") + 
+    geom_edge_link() + 
+    geom_node_point()
+```
+
+### with_fr
+```{r}
+ggraph(g, layout = "with_fr") + 
+    geom_edge_link() + 
+    geom_node_point()
+```
+
+### with_sugiyama
+```{r}
+ggraph(g, layout = "with_sugiyama") + 
+    geom_edge_link() + 
+    geom_node_point()
+```
+
+### with_dh
+```{r}
+ggraph(g, layout = "with_dh") + 
+    geom_edge_link() + 
+    geom_node_point()
+```
+
+### with gem
+```{r}
+ggraph(g, layout = "with_gem") + 
+    geom_edge_link() + 
+    geom_node_point()
+```
+
+### with lgl
+```{r}
+ggraph(g, layout = "with_lgl") + 
+    geom_edge_link() + 
+    geom_node_point()
+```
+
+### layout nicely
+```{r}
+ggraph(g, layout = "nicely") + 
+    geom_edge_link() + 
+    geom_node_point()
+```
+
+## Change edge transparency using alpha
+```{r}
+ggraph(g, layout = "with_kk") + 
+    geom_edge_link(aes(alpha = weight)) + 
+    geom_node_point()
+```
+
+## Add text to nodes
+```{r}
+ggraph(g, layout = "with_kk") + 
+    geom_edge_link(aes(alpha = weight)) + 
+    geom_node_point() +
+    geom_node_text(aes(label = name), repel = T)
+```
+
+## Color
+```{r}
+ggraph(g, layout = "with_kk")+
+    geom_edge_link() + 
+    geom_node_point(aes(color = nodetype)) 
+```
+
+## uniform color, width, size
+```{r}
+ggraph(g, layout = "with_kk")+
+    geom_edge_link(colour = "lightgray", width = 1) + 
+    geom_node_point(aes(color = nodetype), size = 4) 
+```
+
+## Edge color w.r.t weight
+```{r}
+ggraph(g, layout = "with_kk")+
+    geom_edge_link(aes(colour = weight, alpha = weight)) + 
+    geom_node_point(aes(color = nodetype)) 
+```
+
+## Change node attributes
+```{r, eval=FALSE}
+nodes_with_centrality <- nodes %>%
+  mutate(
+    degree = degree(g),
+    # Add a column containing the strength of each node
+    strength = strength(g)) %>%
+  # Arrange rows by descending strength
+  arrange(desc(strength))
+
+# Calculate the reciprocal of the tie weights
+dist_weight <- 1 / E(g)$weight
+
+ties_with_betweenness <- edges %>%
+  # Add an edge betweenness column weighted by dist_weight
+  mutate(betweenness = edge_betweenness(g, weights = dist_weight))
+
+g = g %>%  activate(nodes) %>% left_join(nodes_with_centrality, by = "name") %>%  activate(edges) %>% left_join(ties_with_betweenness, by = c("from","to"))
+
+
+ggraph(g, layout = "with_kk")+
+    geom_edge_link(colour="lightgray", aes(alpha = betweenness)) + 
+    geom_node_point(aes(size = degree, colour = strength))
+```
+
+## Direct 
+
+```{r}
+g = graph_from_data_frame(d = edges, directed = FALSE, vertices = nodes) %>% as_tbl_graph()
+
+g %>% activate(nodes) %>% mutate(centrality = centrality_authority()) %>% 
+  ggraph(layout = 'kk') + 
+    geom_edge_link(aes(alpha = weight)) + 
+    geom_node_point(aes(size = centrality, colour = centrality))
+
+# closeness centrality
+g %>% activate(nodes) %>% mutate(centrality = centrality_closeness()) %>% 
+  ggraph(layout = 'kk') + 
+    geom_edge_link(aes(alpha = weight)) + 
+    geom_node_point(aes(size = centrality, colour = centrality))
+
+# betweenness centrality
+g %>% activate(nodes) %>% mutate(centrality = centrality_betweenness()) %>% 
+  ggraph(layout = 'kk') + 
+    geom_edge_link(aes(alpha = weight)) + 
+    geom_node_point(aes(size = centrality, colour = centrality))
+
+
+```
+
+## Filter important edges
+```{r, eval=FALSE}
+median_betweenness = median(E(g)$betweenness)
+
+ggraph(g, layout = "with_kk") + 
+  # Filter ties for betweenness greater than the median
+  geom_edge_link(aes(filter = betweenness > median_betweenness, alpha = betweenness), size = 2) + 
+  theme(legend.position="none")
+
+```
+
+## Clustering
+```{r}
+g %>% activate(nodes) %>% mutate(community = as.factor(group_infomap())) %>% 
+  ggraph(layout = 'kk') +
+  geom_node_point(aes(colour = community), size = 7)+
+  geom_edge_link(aes(alpha = weight))
+```
+
+## References
+1. https://www.data-imaginist.com/2017/introducing-tidygraph/

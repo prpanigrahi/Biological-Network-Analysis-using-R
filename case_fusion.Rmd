@@ -1,0 +1,73 @@
+---
+title: "Case study"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(igraph)
+library(visNetwork)
+library(networkD3)
+```
+
+```{r, eval=F, echo = F}
+
+## Load library
+# ```{r, message=FALSE}
+library(igraph)
+library(visNetwork)
+library(networkD3)
+#```
+
+<br>
+
+## Graph object
+#```{r}
+df = read.table("./data/data1.tsv", header = F, sep="\t")
+g = graph_from_data_frame(df)
+#```
+
+<br>
+
+#```{r, eval=FALSE}
+genes = V(g)$name
+deg = degree(g)
+bet = betweenness(g)
+clos = closeness(g)
+eigen = eigen_centrality(g)$vector
+res = data.frame(genes = genes, degree = deg[genes], betweenness = bet[genes], closeness = clos[genes], eigen = eigen[genes])
+#```
+
+#```{r, eval=FALSE}
+ggplot(res,aes(x=genes, y=degree))+geom_point()
+#```
+
+## Further study
+
+#https://datascienceplus.com/network-analysis-of-game-of-thrones/
+
+```
+
+## Download data
+```{r}
+nodes <- jsonlite::fromJSON("https://raw.githubusercontent.com/datastorm-open/datastorm-open.github.io/master/visNetwork/data/nodes_miserables.json")
+
+edges <- jsonlite::fromJSON("https://raw.githubusercontent.com/datastorm-open/datastorm-open.github.io/master/visNetwork/data/edges_miserables.json")
+
+g = graph_from_data_frame(d = edges, directed = T, vertices = nodes)
+```
+
+<br><br>
+
+## Answer the following questions
+
+1. How many nodes and edges
+2. Print the graph object and try to understand the summary shown
+3. What are the different node attributes
+
+

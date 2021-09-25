@@ -1,0 +1,56 @@
+---
+title: "Graph"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+![](images/graph1.png)
+
+<hr>
+
+![](images/graph2.png)
+
+<hr>
+
+![](images/graph3.png)
+
+<hr>
+
+
+![](images/graph4.png)
+
+<hr>
+
+![](images/graph5.png)
+
+<hr>
+
+![](images/graph6.png)
+
+<hr>
+
+![](images/graph7.png)
+
+<hr>
+
+![](images/graph8.png)
+
+<hr>
+
+![](images/graph9.png)
+
+<hr>
+
+![](images/graph10.png)
+
+<hr>
+
+![](images/graph11.png)
+
+<hr>
+

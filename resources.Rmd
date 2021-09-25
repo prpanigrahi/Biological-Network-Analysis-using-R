@@ -1,0 +1,162 @@
+---
+title: "Useful resources"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br><br>
+
+# <font color = "red"> Duke Network Analysis Centre </font>
+
+https://dnac.ssri.duke.edu/intro-tutorials.php
+
+<br>
+
+# <font color = "red"> Statistics for Social Data </font>
+http://ptrckprry.com/course/ssd/
+
+
+<br><br>
+
+# <font color = "red"> Awesome Network Analysis Resources </font>
+https://github.com/briatte/awesome-network-analysis
+
+
+<br><br>
+
+# <font color = "red"> Using iGraph for network analysis </font>
+
+<br><br>
+
+## kateto.net
+* https://kateto.net/networks-r-igraph
+* https://kateto.net/netscix2016.html
+
+<br><br>
+
+## using package igraph for network analysis
+https://users.dimi.uniud.it/~massimo.franceschet/R/
+
+<br><br>
+
+## Network Analysis with igraph
+http://cneurocvs.rmki.kfki.hu/igraphbook/igraphbook-flows.html
+
+<br><br>
+
+## Network properties
+https://users.dimi.uniud.it/~massimo.franceschet/networks/nexus/properties.html
+
+<br><br>
+
+## Network Analysis in R Cookbook
+http://sachaepskamp.com/files/Cookbook.html
+
+<br><br>
+
+# <font color = "red"> Network properties explanations </font>
+
+<br><br>
+
+## Centrality
+https://towardsdatascience.com/graph-analytics-introduction-and-concepts-of-centrality-8f5543b55de3
+
+<br><br>
+
+## Network Centrality in R: An Introduction
+https://www.r-bloggers.com/network-centrality-in-r-an-introduction/
+
+<br><br>
+
+# <font color = "red">Community Detection</font>
+
+<br><br>
+
+
+## Summary of community detection algorithms in igraph 0.6
+https://www.r-bloggers.com/summary-of-community-detection-algorithms-in-igraph-0-6/
+
+<br><br>
+
+## R tutorial: how to identify communities of items in networks
+https://psych-networks.com/r-tutorial-identify-communities-items-networks/
+
+<br><br>
+
+## Community detection in social networks
+https://www.kernix.com/article/community-detection-in-social-networks/
+
+<br><br>
+
+## What are the differences between community detection algorithms in igraph?
+https://stackoverflow.com/questions/9471906/what-are-the-differences-between-community-detection-algorithms-in-igraph
+
+<br><br>
+
+# <font color = "red"> Other R packages for Visualization </font>
+
+<br><br>
+
+## ggnetwork
+https://briatte.github.io/ggnetwork/articles/ggnetwork.html
+
+<br><br>
+
+## ggnet2
+https://briatte.github.io/ggnet/
+
+<br><br>
+
+# <font color = "red"> Rpubs Network Analysis tutorials </font>
+* https://rpubs.com/mfwade/Network-Detection-Network-Visualization
+* https://rpubs.com/jhofman/networks
+* https://rpubs.com/wctucker/302110
+* https://rpubs.com/pjmurphy/323120
+* https://rpubs.com/Poornima/376445
+* https://rpubs.com/SulmanKhan/437581 
+* https://rpubs.com/BrendanKnapp/NetworkVisualizationCookbook
+* https://rpubs.com/JanpuHou/337721
+* https://rpubs.com/gill1109/network
+* https://www.rpubs.com/Steven_Surya/visNetwork
+* https://rpubs.com/pjmurphy/313180
+
+<br><br>
+
+#  <font color = "red"> TidyGraph </font>
+* https://www.data-imaginist.com/2017/introducing-tidygraph/
+
+<br><br>
+
+#  <font color = "red"> Interactive visualization </font>
+* https://rstudio-pubs-static.s3.amazonaws.com/249439_1cfd9ec1ee7a481bb30a8d08ebf779ae.html
+* https://www.rpubs.com/Steven_Surya/visNetwork
+
+<br><br>
+
+# <font color = "red"> Other interesting network analysis that can be explored </font>
+
+<br><br>
+
+## Gene fusion network analysis
+http://konect.cc/networks/gene_fusion/
+
+<br><br>
+
+## Graph algorithms
+https://cp-algorithms.com/
+
+<br><br>
+
+## Some network property definition can be found
+http://www.analytictech.com/ucinet/help/webhelp.html
+
+<br><br>
+
+## Game of Throne SNA
+https://datascienceplus.com/network-analysis-of-game-of-thrones/
+
+
